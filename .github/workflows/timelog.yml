@@ -1,0 +1,40 @@
+name: Auto Commit Time Log
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # This runs every 5 minutes
+
+jobs:
+  commit-time-log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Specify your Python version
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # Install dependencies if needed
+
+      - name: Run Python scripts
+        run: |
+          python script1.py >> output.log  # Run your scripts and log output
+          python script2.py >> output.log
+
+      - name: Commit time log
+        run: |
+          echo "Commit at: $(date)" >> time_log.txt
+          git config --local user.name "iVGeek"
+          git config --local user.email "ianvincent916@gmail.com"
+          git add time_log.txt output.log
+          git commit -m "Automated time log commit: $(date)" || echo "No changes to commit"
+
+      - name: Push changes
+        run: git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
