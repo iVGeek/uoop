@@ -11,15 +11,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'  # Specify your Python version
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt  # Install dependencies if needed
-
       - name: Run Python scripts
         run: |
           python script1.py >> output.log  # Run your scripts and log output
@@ -28,8 +19,8 @@ jobs:
       - name: Commit time log
         run: |
           echo "Commit at: $(date)" >> time_log.txt
-          git config --local user.name "iVGeek"
-          git config --local user.email "ianvincent916@gmail.com"
+          git config --local user.name "GitHub Action"
+          git config --local user.email "action@github.com"
           git add time_log.txt output.log
           git commit -m "Automated time log commit: $(date)" || echo "No changes to commit"
 
